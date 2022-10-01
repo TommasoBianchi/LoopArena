@@ -44,7 +44,12 @@ public class Player : MonoBehaviour
         // Shoot
         if (Input.GetMouseButtonDown(0))
         {
-            Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), projectileSpawnPoint.position, transform.rotation);
+            PoolingManager.Instantiate(
+                PoolingManager.Type.Projectile,
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
+                projectileSpawnPoint.position, 
+                transform.rotation
+            );
         }
     }
 }

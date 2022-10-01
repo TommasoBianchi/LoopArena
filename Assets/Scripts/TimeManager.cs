@@ -70,7 +70,12 @@ public class TimeManager : MonoBehaviour
         // Instantiate extra player clone (should be exactly one)
         for (int i = existingPlayerClones.Length; i < playerPastTrajectories.Count; ++i)
         {
-            GameObject playerClone = Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.PlayerClone), playerPastTrajectories[i][0].position, playerPastTrajectories[i][0].rotation);
+            GameObject playerClone = PoolingManager.Instantiate(
+                PoolingManager.Type.PlayerClone,
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.PlayerClone),
+                playerPastTrajectories[i][0].position, 
+                playerPastTrajectories[i][0].rotation
+            );
             playerClone.GetComponent<PlayerClone>().SetTrajectory(playerPastTrajectories[i]);
         }
 
@@ -83,16 +88,21 @@ public class TimeManager : MonoBehaviour
             existingProjectiles[i].transform.position = lastSnapshot.projectilePositions[i].Item1;
         }
 
-        // Deactivate unnecessary existing gameObjects (do not destroy as we could reuse them later)
+        // Deactivate unnecessary existing gameObjects (use PoolingManager to reuse them later)
         for (int i = lastSnapshot.projectilePositions.Count; i < existingProjectiles.Length; ++i)
         {
-            existingProjectiles[i].gameObject.SetActive(false);
+            PoolingManager.Destroy(PoolingManager.Type.Projectile, existingProjectiles[i].gameObject);
         }
 
         // Instantiate extra projectiles (if needed)
         for (int i = existingProjectiles.Length; i < lastSnapshot.projectilePositions.Count; ++i)
         {
-            Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), lastSnapshot.projectilePositions[i].Item1, lastSnapshot.projectilePositions[i].Item2);
+            PoolingManager.Instantiate(
+                PoolingManager.Type.Projectile, 
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
+                lastSnapshot.projectilePositions[i].Item1, 
+                lastSnapshot.projectilePositions[i].Item2
+            );
         }
 
         // TODO: set enemies

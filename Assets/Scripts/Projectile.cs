@@ -5,17 +5,25 @@ public class Projectile : MonoBehaviour
     public float lifetime;
     public Rect viewportDespawnRect;
 
+    private float remainingLifetime;
+
+    private void OnEnable()
+    {
+        remainingLifetime = lifetime;
+    }
+
     // TODO: collisions
 
     void Update()
     {
         transform.Translate(transform.right * speed * Time.deltaTime, Space.World);
 
-        lifetime -= Time.deltaTime;
+        remainingLifetime -= Time.deltaTime;
 
-        if (lifetime <= 0)
+        if (remainingLifetime <= 0)
         {
-            Destroy(gameObject);
+            PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
+            return;
         }
 
         // Despawn if out of camera view
@@ -23,7 +31,8 @@ public class Projectile : MonoBehaviour
 
         if (!viewportDespawnRect.Contains(cameraViewport))
         {
-            Destroy(gameObject);
+            PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
+            return;
         }
     }
 }

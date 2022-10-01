@@ -33,7 +33,12 @@ public class PlayerClone : MonoBehaviour
         // Shoot
         if (replayStep.hasFiredProjectile)
         {
-            Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), projectileSpawnPoint.position, transform.rotation);
+            PoolingManager.Instantiate(
+                PoolingManager.Type.Projectile, 
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
+                projectileSpawnPoint.position, 
+                transform.rotation
+            );
         }
     }
 
