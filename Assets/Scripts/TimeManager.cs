@@ -24,7 +24,7 @@ public class TimeManager : MonoBehaviour
 
         timeToNextReset = resetEverySeconds;
 
-        createSnapshot();
+        CreateSnapshot();
     }
 
     void Update()
@@ -39,7 +39,7 @@ public class TimeManager : MonoBehaviour
         // TEMPORARY
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            createSnapshot();
+            CreateSnapshot();
             // TODO: destroy player clones
         }
     }
@@ -134,7 +134,7 @@ public class TimeManager : MonoBehaviour
         timeToNextReset = resetEverySeconds;
     }
 
-    private void createSnapshot()
+    public void CreateSnapshot()
     {
         Player player = FindObjectOfType<Player>();
 
@@ -152,6 +152,11 @@ public class TimeManager : MonoBehaviour
         snapshots.Push(snapshot);
 
         timeToNextReset = resetEverySeconds;
+    }
+
+    public void RollbackSnapshot()
+    {
+        snapshots.Pop();
     }
 
     struct Snapshot
