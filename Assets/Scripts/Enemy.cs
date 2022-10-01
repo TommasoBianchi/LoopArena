@@ -17,4 +17,16 @@ public class Enemy : MonoBehaviour
         Vector2 dirToPlayer = ((Vector2)player.transform.position - myBody.position).normalized;
         myBody.velocity = dirToPlayer * speed;
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Player player = collision.gameObject.GetComponent<Player>();
+
+        if (player != null)
+        {
+            Time.timeScale = 0;
+        }
+
+        return;
+    }
 }

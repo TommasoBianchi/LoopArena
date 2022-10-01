@@ -40,7 +40,13 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        PoolingManager.Destroy(PoolingManager.Type.Enemy, collision.gameObject.GetComponent<Enemy>().gameObject);
+        Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
+        if (enemy != null)
+        {
+            PoolingManager.Destroy(PoolingManager.Type.Enemy, enemy.gameObject);
+        }
+
         PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
         return;
     }
