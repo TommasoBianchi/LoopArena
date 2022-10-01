@@ -37,4 +37,11 @@ public class Projectile : MonoBehaviour
             return;
         }
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        PoolingManager.Destroy(PoolingManager.Type.Enemy, collision.gameObject.GetComponent<Enemy>().gameObject);
+        PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
+        return;
+    }
 }
