@@ -116,8 +116,8 @@ public class TimeManager : MonoBehaviour
             PoolingManager.Instantiate(
                 PoolingManager.Type.Enemy,
                 PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy),
-                lastSnapshot.projectilePositions[i].Item1,
-                lastSnapshot.projectilePositions[i].Item2
+                lastSnapshot.enemyPositions[i].Item1,
+                lastSnapshot.enemyPositions[i].Item2
             );
         }
 
