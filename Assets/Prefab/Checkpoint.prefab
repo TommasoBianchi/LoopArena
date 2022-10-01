@@ -148,3 +148,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFirstCheckpoint: 0
   maxClonesSupported: 5
+  durability: 5
+  durabilityReloadPerSecond: 1

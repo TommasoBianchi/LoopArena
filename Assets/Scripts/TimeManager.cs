@@ -35,13 +35,6 @@ public class TimeManager : MonoBehaviour
         {
             resetLastSnapshot();
         }
-
-        // TEMPORARY
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            CreateSnapshot();
-            // TODO: destroy player clones
-        }
     }
 
     private void resetLastSnapshot()
@@ -54,21 +47,26 @@ public class TimeManager : MonoBehaviour
         player.transform.rotation = lastSnapshot.playerRotation;
         // TODO: set player health
 
-        // Store and reset player trajectory
-        playerPastTrajectories.Add(player.currentTrajectory);
+        // Store and reset player trajectory (only if the current checkpoints supports more clones)
+        if (playerPastTrajectories.Count < Checkpoint.Current.maxClonesSupported)
+        {
+            playerPastTrajectories.Add(player.currentTrajectory);
+        }
         player.ResetCurrentTrajectory();
 
-        // Set player clones
+        ///
+        /// PLAYER CLONES
+        ///
         PlayerClone[] existingPlayerClones = FindObjectsOfType<PlayerClone>(true);
 
-        // If possible, reuse existing gameObjects
-        for (int i = 0; i < Mathf.Min(existingPlayerClones.Length, playerPastTrajectories.Count); ++i)
+        // Cleanup all already existing player clones
+        for (int i = 0; i < existingPlayerClones.Length; ++i)
         {
-            existingPlayerClones[i].SetTrajectory(playerPastTrajectories[i]);
+            PoolingManager.Destroy(PoolingManager.Type.PlayerClone, existingPlayerClones[i].gameObject);
         }
 
-        // Instantiate extra player clone (should be exactly one)
-        for (int i = existingPlayerClones.Length; i < playerPastTrajectories.Count; ++i)
+        // Instantiate player clones (pooling whenever possible)
+        for (int i = 0; i < playerPastTrajectories.Count; ++i)
         {
             GameObject playerClone = PoolingManager.Instantiate(
                 PoolingManager.Type.PlayerClone,
@@ -79,49 +77,41 @@ public class TimeManager : MonoBehaviour
             playerClone.GetComponent<PlayerClone>().SetTrajectory(playerPastTrajectories[i]);
         }
 
-        // Set projectiles
+        ///
+        /// PROJECTILES
+        ///
         Projectile[] existingProjectiles = FindObjectsOfType<Projectile>(true);
 
-        // If possible, reuse existing gameObjects
-        for (int i = 0; i < Mathf.Min(existingProjectiles.Length, lastSnapshot.projectilePositions.Count); ++i)
-        {
-            existingProjectiles[i].transform.position = lastSnapshot.projectilePositions[i].Item1;
-        }
-
-        // Deactivate unnecessary existing gameObjects (use PoolingManager to reuse them later)
-        for (int i = lastSnapshot.projectilePositions.Count; i < existingProjectiles.Length; ++i)
+        // Cleanup all already existing projectiles
+        for (int i = 0; i < existingProjectiles.Length; ++i)
         {
             PoolingManager.Destroy(PoolingManager.Type.Projectile, existingProjectiles[i].gameObject);
         }
 
-        // Instantiate extra projectiles (if needed)
-        for (int i = existingProjectiles.Length; i < lastSnapshot.projectilePositions.Count; ++i)
+        // Instantiate projectiles (pooling whenever possible)
+        for (int i = 0; i < lastSnapshot.projectilePositions.Count; ++i)
         {
             PoolingManager.Instantiate(
-                PoolingManager.Type.Projectile, 
-                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
-                lastSnapshot.projectilePositions[i].Item1, 
+                PoolingManager.Type.Projectile,
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile),
+                lastSnapshot.projectilePositions[i].Item1,
                 lastSnapshot.projectilePositions[i].Item2
             );
         }
 
-        // Set enemies
+        ///
+        /// ENEMIES
+        ///
         Enemy[] existingEnemies = FindObjectsOfType<Enemy>(true);
 
-        // If possible, reuse existing gameObjects
-        for (int i = 0; i < Mathf.Min(existingEnemies.Length, lastSnapshot.enemyPositions.Count); ++i)
-        {
-            existingEnemies[i].transform.position = lastSnapshot.enemyPositions[i].Item1;
-        }
-
-        // Deactivate unnecessary existing gameObjects (use PoolingManager to reuse them later)
-        for (int i = lastSnapshot.enemyPositions.Count; i < existingEnemies.Length; ++i)
+        // Cleanup all already existing enemies
+        for (int i = 0; i < existingEnemies.Length; ++i)
         {
             PoolingManager.Destroy(PoolingManager.Type.Enemy, existingEnemies[i].gameObject);
         }
 
-        // Instantiate extra enemies (if needed)
-        for (int i = existingEnemies.Length; i < lastSnapshot.enemyPositions.Count; ++i)
+        // Instantiate enemies (pooling whenever possible)
+        for (int i = 0; i < lastSnapshot.enemyPositions.Count; ++i)
         {
             PoolingManager.Instantiate(
                 PoolingManager.Type.Enemy,
@@ -130,6 +120,9 @@ public class TimeManager : MonoBehaviour
                 lastSnapshot.projectilePositions[i].Item2
             );
         }
+
+        // Consume durability from the current checkpoint
+        Checkpoint.Current.DecreaseDurability();
 
         timeToNextReset = resetEverySeconds;
     }
@@ -156,7 +149,11 @@ public class TimeManager : MonoBehaviour
 
     public void RollbackSnapshot()
     {
+        // Cleanup player clones
+        playerPastTrajectories.Clear();
+
         snapshots.Pop();
+        resetLastSnapshot();
     }
 
     struct Snapshot
