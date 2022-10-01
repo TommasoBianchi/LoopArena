@@ -79,5 +79,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: First Checkpoint
       objectReference: {fileID: 0}
+    - target: {fileID: 3074065479624896327, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
+      propertyPath: m_Color.b
+      value: 0.70644426
+      objectReference: {fileID: 0}
+    - target: {fileID: 3074065479624896327, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
