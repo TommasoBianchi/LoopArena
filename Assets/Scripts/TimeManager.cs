@@ -105,7 +105,31 @@ public class TimeManager : MonoBehaviour
             );
         }
 
-        // TODO: set enemies
+        // Set enemies
+        Enemy[] existingEnemies = FindObjectsOfType<Enemy>(true);
+
+        // If possible, reuse existing gameObjects
+        for (int i = 0; i < Mathf.Min(existingEnemies.Length, lastSnapshot.enemyPositions.Count); ++i)
+        {
+            existingEnemies[i].transform.position = lastSnapshot.enemyPositions[i].Item1;
+        }
+
+        // Deactivate unnecessary existing gameObjects (use PoolingManager to reuse them later)
+        for (int i = lastSnapshot.enemyPositions.Count; i < existingEnemies.Length; ++i)
+        {
+            PoolingManager.Destroy(PoolingManager.Type.Enemy, existingEnemies[i].gameObject);
+        }
+
+        // Instantiate extra enemies (if needed)
+        for (int i = existingEnemies.Length; i < lastSnapshot.enemyPositions.Count; ++i)
+        {
+            PoolingManager.Instantiate(
+                PoolingManager.Type.Enemy,
+                PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy),
+                lastSnapshot.projectilePositions[i].Item1,
+                lastSnapshot.projectilePositions[i].Item2
+            );
+        }
 
         timeToNextReset = resetEverySeconds;
     }
@@ -115,13 +139,14 @@ public class TimeManager : MonoBehaviour
         Player player = FindObjectOfType<Player>();
 
         Projectile[] projectiles = FindObjectsOfType<Projectile>();
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
 
         Snapshot snapshot = new Snapshot(
             player.transform.position,
             player.transform.rotation,
-            1, 
-            projectiles.Select(p => ((Vector2)p.transform.position, p.transform.rotation)).ToList(), 
-            new List<(Vector2, Quaternion)>()
+            1,
+            projectiles.Select(p => ((Vector2)p.transform.position, p.transform.rotation)).ToList(),
+            enemies.Select(e => ((Vector2)e.transform.position, e.transform.rotation)).ToList()
         );
 
         snapshots.Push(snapshot);
