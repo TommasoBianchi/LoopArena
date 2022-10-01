@@ -50,6 +50,8 @@ public class Player : MonoBehaviour
                 projectileSpawnPoint.position, 
                 transform.rotation
             );
+
+            AudioManager.Play(AudioManager.ClipType.Shoot);
         }
     }
 }
