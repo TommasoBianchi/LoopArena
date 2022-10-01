@@ -9,6 +9,7 @@ public class TimeManager : MonoBehaviour
     public float resetEverySeconds = 10;
     private float timeToNextReset;
     private Stack<Snapshot> snapshots;
+    private List<List<PlayerClone.ReplayStep>> playerPastTrajectories;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class TimeManager : MonoBehaviour
         Instance = this;
 
         snapshots = new Stack<Snapshot>();
+        playerPastTrajectories = new List<List<PlayerClone.ReplayStep>>();
 
         timeToNextReset = resetEverySeconds;
 
@@ -32,7 +34,13 @@ public class TimeManager : MonoBehaviour
         if (timeToNextReset <= 0)
         {
             resetLastSnapshot();
-            timeToNextReset = resetEverySeconds;
+        }
+
+        // TEMPORARY
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            createSnapshot();
+            // TODO: destroy player clones
         }
     }
 
@@ -40,10 +48,31 @@ public class TimeManager : MonoBehaviour
     {
         Snapshot lastSnapshot = snapshots.Peek();
 
+        // Store player data
         Player player = FindObjectOfType<Player>();
         player.transform.position = lastSnapshot.playerPosition;
         player.transform.rotation = lastSnapshot.playerRotation;
         // TODO: set player health
+
+        // Store and reset player trajectory
+        playerPastTrajectories.Add(player.currentTrajectory);
+        player.ResetCurrentTrajectory();
+
+        // Set player clones
+        PlayerClone[] existingPlayerClones = FindObjectsOfType<PlayerClone>(true);
+
+        // If possible, reuse existing gameObjects
+        for (int i = 0; i < Mathf.Min(existingPlayerClones.Length, playerPastTrajectories.Count); ++i)
+        {
+            existingPlayerClones[i].SetTrajectory(playerPastTrajectories[i]);
+        }
+
+        // Instantiate extra player clone (should be exactly one)
+        for (int i = existingPlayerClones.Length; i < playerPastTrajectories.Count; ++i)
+        {
+            GameObject playerClone = Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.PlayerClone), playerPastTrajectories[i][0].position, playerPastTrajectories[i][0].rotation);
+            playerClone.GetComponent<PlayerClone>().SetTrajectory(playerPastTrajectories[i]);
+        }
 
         // Set projectiles
         Projectile[] existingProjectiles = FindObjectsOfType<Projectile>(true);
@@ -66,7 +95,9 @@ public class TimeManager : MonoBehaviour
             Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), lastSnapshot.projectilePositions[i].Item1, lastSnapshot.projectilePositions[i].Item2);
         }
 
-        // Set enemies
+        // TODO: set enemies
+
+        timeToNextReset = resetEverySeconds;
     }
 
     private void createSnapshot()
@@ -84,6 +115,8 @@ public class TimeManager : MonoBehaviour
         );
 
         snapshots.Push(snapshot);
+
+        timeToNextReset = resetEverySeconds;
     }
 
     struct Snapshot

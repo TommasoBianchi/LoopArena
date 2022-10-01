@@ -6,7 +6,8 @@ public class PrefabsManager : MonoBehaviour
     public enum PrefabType
     {
         Projectile,
-        Enemy
+        Enemy,
+        PlayerClone
     }
 
     private static PrefabsManager Instance;

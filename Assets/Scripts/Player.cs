@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -5,13 +6,27 @@ public class Player : MonoBehaviour
     public Transform projectileSpawnPoint;
     public float speed;
 
+    public List<PlayerClone.ReplayStep> currentTrajectory { get; private set; }
+
     void Start()
     {
-        
+        currentTrajectory = new List<PlayerClone.ReplayStep>();
+    }
+
+    public void ResetCurrentTrajectory()
+    {
+        currentTrajectory = new List<PlayerClone.ReplayStep>();
     }
 
     void Update()
     {
+        // Save current step in trajectory
+        currentTrajectory.Add(new PlayerClone.ReplayStep(
+            transform.position,
+            transform.rotation,
+            Input.GetMouseButtonDown(0)
+        ));
+
         // Move
         Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
 
