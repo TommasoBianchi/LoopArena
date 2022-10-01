@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 23684433}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Outer Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 45278212}
   - component: {fileID: 45278214}
   - component: {fileID: 45278213}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nord-ovest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,7 +280,7 @@ GameObject:
   - component: {fileID: 85634642}
   - component: {fileID: 85634641}
   - component: {fileID: 85634640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   - component: {fileID: 110578979}
   - component: {fileID: 110578981}
   - component: {fileID: 110578980}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nord-ovest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 114157509}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Vertical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -537,7 +537,7 @@ GameObject:
   - component: {fileID: 144762081}
   - component: {fileID: 144762083}
   - component: {fileID: 144762082}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nord-est
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -918,7 +918,7 @@ GameObject:
   - component: {fileID: 808024462}
   - component: {fileID: 808024461}
   - component: {fileID: 808024460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1029,7 +1029,7 @@ GameObject:
   - component: {fileID: 935579664}
   - component: {fileID: 935579666}
   - component: {fileID: 935579665}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sud-est
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1140,7 +1140,7 @@ GameObject:
   - component: {fileID: 1037665703}
   - component: {fileID: 1037665705}
   - component: {fileID: 1037665704}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sud-ovest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1250,7 +1250,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1169760514}
   - component: {fileID: 1169760515}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Level Geometry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1373,7 +1373,7 @@ GameObject:
   - component: {fileID: 1200768871}
   - component: {fileID: 1200768873}
   - component: {fileID: 1200768872}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: nord-est
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1700,7 +1700,7 @@ GameObject:
   - component: {fileID: 1698908801}
   - component: {fileID: 1698908803}
   - component: {fileID: 1698908802}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sud-est
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1874,7 +1874,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3834100151222047351, guid: a126772c1b9c5af4983b69835f2f72db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 35
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 3834100151222047351, guid: a126772c1b9c5af4983b69835f2f72db, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1925,7 +1925,7 @@ GameObject:
   - component: {fileID: 1836956462}
   - component: {fileID: 1836956461}
   - component: {fileID: 1836956460}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2034,7 +2034,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1907756633}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2067,7 +2067,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2001250367}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Horizontal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2104,7 +2104,7 @@ GameObject:
   - component: {fileID: 2003803484}
   - component: {fileID: 2003803483}
   - component: {fileID: 2003803482}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2215,7 +2215,7 @@ GameObject:
   - component: {fileID: 2067783446}
   - component: {fileID: 2067783448}
   - component: {fileID: 2067783447}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sud-ovest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2393,7 +2393,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3834100151222047351, guid: a126772c1b9c5af4983b69835f2f72db, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -35
+      value: -25
       objectReference: {fileID: 0}
     - target: {fileID: 3834100151222047351, guid: a126772c1b9c5af4983b69835f2f72db, type: 3}
       propertyPath: m_LocalPosition.y
