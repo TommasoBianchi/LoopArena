@@ -4,11 +4,13 @@ public class Projectile : MonoBehaviour
     public float speed;
     public float lifetime;
     public Rect viewportDespawnRect;
+    private Rigidbody2D myBody;
 
     private float remainingLifetime;
 
     private void OnEnable()
     {
+        myBody = GetComponent<Rigidbody2D>();
         remainingLifetime = lifetime;
     }
 
@@ -16,7 +18,7 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(transform.right * speed * Time.deltaTime, Space.World);
+        myBody.velocity = transform.right * speed;
 
         remainingLifetime -= Time.deltaTime;
 
