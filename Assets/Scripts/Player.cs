@@ -5,11 +5,13 @@ public class Player : MonoBehaviour
 {
     public Transform projectileSpawnPoint;
     public float speed;
+    private Rigidbody2D myBody;
 
     public List<PlayerClone.ReplayStep> currentTrajectory { get; private set; }
 
     void Start()
     {
+        myBody = GetComponent<Rigidbody2D>();
         currentTrajectory = new List<PlayerClone.ReplayStep>();
     }
 
@@ -29,8 +31,7 @@ public class Player : MonoBehaviour
 
         // Move
         Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-
-        transform.Translate(moveDirection * speed * Time.deltaTime, Space.World);
+        myBody.velocity = moveDirection * speed;
 
         // Look towards the mouse cursor
         Vector2 lookDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
