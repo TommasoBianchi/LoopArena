@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public GameObject projectilePrefab;
     public Transform projectileSpawnPoint;
     public float speed;
 
@@ -31,7 +28,7 @@ public class Player : MonoBehaviour
         // Shoot
         if (Input.GetMouseButtonDown(0))
         {
-            GameObject projectile = Instantiate(projectilePrefab, projectileSpawnPoint.position, transform.rotation);
+            Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), projectileSpawnPoint.position, transform.rotation);
         }
     }
 }
