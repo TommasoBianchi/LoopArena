@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 dirToPlayer = (Vector2)player.transform.position - myBody.position;
+        Vector2 dirToPlayer = ((Vector2)player.transform.position - myBody.position).normalized;
         myBody.velocity = dirToPlayer * speed;
     }
 }
