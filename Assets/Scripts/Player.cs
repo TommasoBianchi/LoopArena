@@ -5,12 +5,14 @@ public class Player : MonoBehaviour
 {
     public Transform projectileSpawnPoint;
     public float speed;
+    public float health;
     private Rigidbody2D myBody;
 
     public List<PlayerClone.ReplayStep> currentTrajectory { get; private set; }
 
     void Start()
     {
+        health = 10;
         myBody = GetComponent<Rigidbody2D>();
         currentTrajectory = new List<PlayerClone.ReplayStep>();
     }

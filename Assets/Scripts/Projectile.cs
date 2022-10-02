@@ -36,8 +36,7 @@ public class Projectile : MonoBehaviour
 
         if (enemy != null)
         {
-            PoolingManager.Destroy(PoolingManager.Type.Enemy, enemy.gameObject);
-            AudioManager.Play(AudioManager.ClipType.MonsterDeath);
+            enemy.ApplyDamage();
         }
 
         PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);

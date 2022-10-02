@@ -3,6 +3,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float health;
     private Rigidbody2D myBody;
     private Player player;
 
@@ -16,6 +17,17 @@ public class Enemy : MonoBehaviour
     {
         Vector2 dirToPlayer = ((Vector2)player.transform.position - myBody.position).normalized;
         myBody.velocity = dirToPlayer * speed;
+    }
+
+    public void ApplyDamage()
+    {
+        health--;
+
+        if (health <= 0)
+        {
+            PoolingManager.Destroy(PoolingManager.Type.Enemy, gameObject);
+            AudioManager.Play(AudioManager.ClipType.MonsterDeath);
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
