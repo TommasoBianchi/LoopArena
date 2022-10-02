@@ -27,13 +27,6 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Save current step in trajectory
-        currentTrajectory.Add(new PlayerClone.ReplayStep(
-            transform.position,
-            transform.rotation,
-            Input.GetMouseButtonDown(0)
-        ));
-
         // Move
         Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
         myBody.velocity = moveDirection * speed;
@@ -75,6 +68,15 @@ public class Player : MonoBehaviour
 
         animatorController.SetInteger("direction", animationDirection);
         animatorController.SetBool("is_moving", isMoving);
+
+        // Save current step in trajectory
+        currentTrajectory.Add(new PlayerClone.ReplayStep(
+            transform.position,
+            rotationAnchor.rotation,
+            Input.GetMouseButtonDown(0),
+            animationDirection,
+            isMoving
+        ));
     }
 
     public void ApplyDamage()

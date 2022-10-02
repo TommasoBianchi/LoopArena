@@ -73,7 +73,7 @@ public class TimeManager : MonoBehaviour
                 PoolingManager.Type.PlayerClone,
                 PrefabsManager.GetPrefab(PrefabsManager.PrefabType.PlayerClone),
                 playerPastTrajectories[i][0].position, 
-                playerPastTrajectories[i][0].rotation
+                Quaternion.identity
             );
             playerClone.GetComponent<PlayerClone>().SetTrajectory(playerPastTrajectories[i]);
         }

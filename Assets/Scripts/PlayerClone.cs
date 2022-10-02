@@ -3,10 +3,17 @@ using UnityEngine;
 
 public class PlayerClone : MonoBehaviour
 {
+    public Transform rotationAnchor;
     public Transform projectileSpawnPoint;
 
+    private Animator animatorController;
     private List<ReplayStep> trajectory;
     private int step = 0;
+
+    private void Start()
+    {
+        animatorController = GetComponentInChildren<Animator>();
+    }
 
     public void SetTrajectory(List<ReplayStep> trajectory)
     {
@@ -14,7 +21,7 @@ public class PlayerClone : MonoBehaviour
         step = 0;
 
         transform.position = trajectory[0].position;
-        transform.rotation = trajectory[0].rotation;
+        rotationAnchor.rotation = trajectory[0].rotation;
     }
 
     void Update()
@@ -27,8 +34,9 @@ public class PlayerClone : MonoBehaviour
         ReplayStep replayStep = trajectory[step];
         ++step;
 
+        bool isMoving = (replayStep.position - (Vector2)transform.position).sqrMagnitude < 0.01f;
         transform.position = replayStep.position;
-        transform.rotation = replayStep.rotation;
+        rotationAnchor.rotation = replayStep.rotation;
 
         // Shoot
         if (replayStep.hasFiredProjectile)
@@ -36,12 +44,15 @@ public class PlayerClone : MonoBehaviour
             PoolingManager.Instantiate(
                 PoolingManager.Type.Projectile, 
                 PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
-                projectileSpawnPoint.position, 
-                transform.rotation
+                projectileSpawnPoint.position,
+                rotationAnchor.rotation
             );
 
             AudioManager.Play(AudioManager.ClipType.Shoot);
         }
+
+        animatorController.SetInteger("direction", replayStep.animatorDirection);
+        animatorController.SetBool("is_moving", isMoving);
     }
 
     public struct ReplayStep
@@ -49,12 +60,16 @@ public class PlayerClone : MonoBehaviour
         public Vector2 position;
         public Quaternion rotation;
         public bool hasFiredProjectile;
+        public int animatorDirection;
+        public bool isMoving;
 
-        public ReplayStep(Vector2 position, Quaternion rotation, bool hasFiredProjectile)
+        public ReplayStep(Vector2 position, Quaternion rotation, bool hasFiredProjectile, int animatorDirection, bool isMoving)
         {
             this.position = position;
             this.rotation = rotation;
             this.hasFiredProjectile = hasFiredProjectile;
+            this.animatorDirection = animatorDirection;
+            this.isMoving = isMoving;
         }
     }
 }
