@@ -46,7 +46,7 @@ public class TimeManager : MonoBehaviour
         Player player = FindObjectOfType<Player>();
         player.transform.position = lastSnapshot.playerPosition;
         player.transform.rotation = lastSnapshot.playerRotation;
-        // TODO: set player health
+        player.health = lastSnapshot.playerHealth;
 
         // Store and reset player trajectory (only if the current checkpoints supports more clones)
         if (playerPastTrajectories.Count < Checkpoint.Current.maxClonesSupported)
@@ -112,14 +112,15 @@ public class TimeManager : MonoBehaviour
         }
 
         // Instantiate enemies (pooling whenever possible)
-        for (int i = 0; i < lastSnapshot.enemyPositions.Count; ++i)
+        for (int i = 0; i < lastSnapshot.enemyData.Count; ++i)
         {
-            PoolingManager.Instantiate(
+            GameObject enemy = PoolingManager.Instantiate(
                 PoolingManager.Type.Enemy,
                 PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy),
-                lastSnapshot.enemyPositions[i].Item1,
-                lastSnapshot.enemyPositions[i].Item2
+                lastSnapshot.enemyData[i].position,
+                lastSnapshot.enemyData[i].rotation
             );
+            enemy.GetComponent<Enemy>().health = lastSnapshot.enemyData[i].health;
         }
 
         // Consume durability from the current checkpoint
@@ -138,9 +139,9 @@ public class TimeManager : MonoBehaviour
         Snapshot snapshot = new Snapshot(
             player.transform.position,
             player.transform.rotation,
-            1,
+            player.health,
             projectiles.Select(p => ((Vector2)p.transform.position, p.transform.rotation)).ToList(),
-            enemies.Select(e => ((Vector2)e.transform.position, e.transform.rotation)).ToList()
+            enemies.Select(e => new EnemySnapshotData(e.transform.position, e.transform.rotation, e.health)).ToList()
         );
 
         snapshots.Push(snapshot);
@@ -163,15 +164,34 @@ public class TimeManager : MonoBehaviour
         public Quaternion playerRotation;
         public float playerHealth;
         public List<(Vector2, Quaternion)> projectilePositions;
-        public List<(Vector2, Quaternion)> enemyPositions;
+        public List<EnemySnapshotData> enemyData;
 
-        public Snapshot(Vector2 playerPosition, Quaternion playerRotation, float playerHealth, List<(Vector2, Quaternion)> projectilePositions, List<(Vector2, Quaternion)> enemyPositions)
+        public Snapshot(
+            Vector2 playerPosition, 
+            Quaternion playerRotation, 
+            float playerHealth, List<(Vector2, Quaternion)> projectilePositions, 
+            List<EnemySnapshotData> enemyData
+        )
         {
             this.playerPosition = playerPosition;
             this.playerRotation = playerRotation;
             this.playerHealth = playerHealth;
             this.projectilePositions = projectilePositions;
-            this.enemyPositions = enemyPositions;
+            this.enemyData = enemyData;
+        }
+    }
+
+    struct EnemySnapshotData
+    {
+        public Vector2 position;
+        public Quaternion rotation;
+        public float health;
+
+        public EnemySnapshotData(Vector2 position, Quaternion rotation, float health)
+        {
+            this.position = position;
+            this.rotation = rotation;
+            this.health = health;
         }
     }
 }
