@@ -7,6 +7,8 @@ public class Checkpoint : MonoBehaviour
     public int maxClonesSupported;
     public int durability;
     public float durabilityReloadPerSecond;
+    [SerializeField] private List<GameObject> glowList;
+
 
     private float currentDurability;
     private bool isActive;
@@ -23,6 +25,7 @@ public class Checkpoint : MonoBehaviour
 
         currentDurability = durability;
         isActive = true;
+
     }
 
     private void Update()
@@ -46,6 +49,9 @@ public class Checkpoint : MonoBehaviour
     {
         currentDurability -= 1;
 
+        float durabilityRatio = currentDurability / (float)durability;
+        int durabilityQuota = Mathf.FloorToInt(durabilityRatio * glowList.Count);
+
         if (!isFirstCheckpoint && isActive && currentDurability <= 0)
         {
             // Disable the checkpoint (TODO: edit graphics accordingly) and redirect to the previous one
@@ -53,9 +59,24 @@ public class Checkpoint : MonoBehaviour
             checkpoints.Pop();
             TimeManager.Instance.RollbackSnapshot();
 
+            // Reactivate child
+            for (int i = 0; i < glowList.Count; i++)
+            {
+                glowList[i].gameObject.SetActive(true);
+            }
+
             // TEMP (useful for visualization)
             transform.GetChild(0).gameObject.SetActive(false);
+            return;
         }
+
+        for (int i = 0; i < glowList.Count; ++i) 
+        {
+            glowList[i].gameObject.SetActive(i < durabilityQuota);
+        }
+
+    
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
