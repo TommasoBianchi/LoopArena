@@ -14,7 +14,6 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        health = 10;
         myBody = GetComponent<Rigidbody2D>();
         animatorController = GetComponentInChildren<Animator>();
         currentTrajectory = new List<PlayerClone.ReplayStep>();

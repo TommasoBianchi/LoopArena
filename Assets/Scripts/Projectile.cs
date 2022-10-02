@@ -3,7 +3,6 @@ public class Projectile : MonoBehaviour
 {
     public float speed;
     public float lifetime;
-    public Rect viewportDespawnRect;
     private Rigidbody2D myBody;
 
     private float remainingLifetime;
