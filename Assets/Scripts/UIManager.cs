@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         MonsterKilled = 0;
+<<<<<<< Updated upstream
         TotalMonsters = 200;
 
         player = FindObjectOfType<Player>();
@@ -28,6 +29,9 @@ public class UIManager : MonoBehaviour
         checkpointsText.text = TimeManager.NumStoredSnapshots.ToString();
         healthSlider.value = Mathf.Clamp01(player.currentHealth / player.health);
         timeSlider.value = Mathf.Clamp01(TimeManager.Instance.timeToNextReset / TimeManager.Instance.resetEverySeconds);
+=======
+        TotalMonsters = 12;
+>>>>>>> Stashed changes
     }
 
     public void Kill()

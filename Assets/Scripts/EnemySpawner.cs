@@ -6,21 +6,25 @@ public class EnemySpawner : MonoBehaviour
 {
     public Rect SpawnArea;
     private GameObject spawnedEnemy;
-    private UIManager UI;
+    private Player player;
+    private UIManager ui;
     void Start()
     {
-        UI = FindObjectOfType<UIManager>();
+        player = FindObjectOfType<Player>();
+        ui = FindObjectOfType<UIManager>();
         StartCoroutine(SpawnMonsters());
     }
     IEnumerator SpawnMonsters()
     {
-        for (int i = 0; i <= UI.TotalMonsters/4; i++)
+        while (ui.MonsterKilled <= ui.TotalMonsters)
         {
-            yield return new WaitForSeconds(Random.Range(1, 5));
+            yield return new WaitForSeconds(1);
 
-            if (SpawnArea.Contains(transform.position))
+            Vector3 randomSpawnPosition = new Vector3(player.transform.position.x + (Random.Range(0, 2) * 40 - 20), player.transform.position.y + (Random.Range(0, 2) * 40 - 20), 0);
+
+            if (SpawnArea.Contains(randomSpawnPosition))
             {
-                spawnedEnemy = PoolingManager.Instantiate(PoolingManager.Type.Enemy, PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy), transform.position, Quaternion.identity);
+                spawnedEnemy = PoolingManager.Instantiate(PoolingManager.Type.Enemy, PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy), randomSpawnPosition, Quaternion.identity);
                 spawnedEnemy.GetComponent<Enemy>().speed = 4;
                 spawnedEnemy.GetComponent<Enemy>().health = 2;
                 AudioManager.Play(AudioManager.ClipType.MonsterNoise);

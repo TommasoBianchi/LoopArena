@@ -9,7 +9,12 @@ public class TimeManager : MonoBehaviour
     public static int NumStoredSnapshots { get { return Instance.snapshots.Count; } }
 
     public float resetEverySeconds = 10;
+<<<<<<< Updated upstream
     public float timeToNextReset { get; private set; }
+=======
+    public int LoopAmount;
+    private float timeToNextReset;
+>>>>>>> Stashed changes
     private Stack<Snapshot> snapshots;
     private List<List<PlayerClone.ReplayStep>> playerPastTrajectories;
 
@@ -26,6 +31,7 @@ public class TimeManager : MonoBehaviour
 
         timeToNextReset = resetEverySeconds;
         TimeFromStart = 0;
+        LoopAmount = 0;
 
         CreateSnapshot();
     }
@@ -38,6 +44,7 @@ public class TimeManager : MonoBehaviour
         {
             AudioManager.Play(AudioManager.ClipType.Reset);
             resetLastSnapshot();
+            LoopAmount++;
         }
     }
 
