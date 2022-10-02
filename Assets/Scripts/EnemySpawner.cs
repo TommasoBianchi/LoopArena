@@ -14,15 +14,14 @@ public class EnemySpawner : MonoBehaviour
     }
     IEnumerator SpawnMonsters()
     {
-
-        for (int i = 0; i <= UI.TotalMonsters; i++)
+        for (int i = 0; i <= UI.TotalMonsters/4; i++)
         {
             yield return new WaitForSeconds(Random.Range(1, 5));
 
             if (SpawnArea.Contains(transform.position))
             {
                 spawnedEnemy = PoolingManager.Instantiate(PoolingManager.Type.Enemy, PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy), transform.position, Quaternion.identity);
-                spawnedEnemy.GetComponent<Enemy>().speed = 5;
+                spawnedEnemy.GetComponent<Enemy>().speed = 4;
                 spawnedEnemy.GetComponent<Enemy>().health = 2;
                 AudioManager.Play(AudioManager.ClipType.MonsterNoise);
             }

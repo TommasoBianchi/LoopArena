@@ -84,8 +84,7 @@ public class Player : MonoBehaviour
 
         if (health <= 0)
         {
-            Debug.Log("Sei morto!");
-            Time.timeScale = 0;
+            UIManager.GameOver();
         }
     }
 }

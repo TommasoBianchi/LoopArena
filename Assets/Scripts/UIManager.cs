@@ -13,8 +13,19 @@ public class UIManager : MonoBehaviour
         TotalMonsters = 200;
     }
 
-    public void kill()
+    public void Kill()
     {
         MonsterKilled++;
+
+        if (MonsterKilled >= TotalMonsters)
+        {
+            GameOver();
+        }
+    }
+
+    public static void GameOver()
+    {
+        Debug.Log("Game Over");
+        Time.timeScale = 0;
     }
 }

@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour
         {
             PoolingManager.Destroy(PoolingManager.Type.Enemy, gameObject);
             AudioManager.Play(AudioManager.ClipType.MonsterDeath);
-            UI.kill();
+            UI.Kill();
         }
     }
 
@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-            player.ApplyDamage();
+            //player.ApplyDamage();
         }
 
         return;
