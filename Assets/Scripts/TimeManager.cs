@@ -5,6 +5,7 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
+    public static float TimeFromStart { get; private set; }
 
     public float resetEverySeconds = 10;
     private float timeToNextReset;
@@ -23,6 +24,7 @@ public class TimeManager : MonoBehaviour
         playerPastTrajectories = new List<List<PlayerClone.ReplayStep>>();
 
         timeToNextReset = resetEverySeconds;
+        TimeFromStart = 0;
 
         CreateSnapshot();
     }
@@ -42,7 +44,11 @@ public class TimeManager : MonoBehaviour
     {
         Snapshot lastSnapshot = snapshots.Peek();
 
-        // Store player data
+        // Restore global variables
+        TimeFromStart = lastSnapshot.timeFromStart;
+        FindObjectOfType<UIManager>().MonsterKilled = lastSnapshot.enemiesKilled;
+
+        // Restore player data
         Player player = FindObjectOfType<Player>();
         player.transform.position = lastSnapshot.playerPosition;
         player.transform.rotation = lastSnapshot.playerRotation;
@@ -137,6 +143,8 @@ public class TimeManager : MonoBehaviour
         Enemy[] enemies = FindObjectsOfType<Enemy>();
 
         Snapshot snapshot = new Snapshot(
+            TimeFromStart,
+            FindObjectOfType<UIManager>().MonsterKilled,
             player.transform.position,
             player.transform.rotation,
             player.health,
@@ -160,6 +168,8 @@ public class TimeManager : MonoBehaviour
 
     struct Snapshot
     {
+        public float timeFromStart;
+        public int enemiesKilled;
         public Vector2 playerPosition;
         public Quaternion playerRotation;
         public float playerHealth;
@@ -167,12 +177,16 @@ public class TimeManager : MonoBehaviour
         public List<EnemySnapshotData> enemyData;
 
         public Snapshot(
+            float timeFromStart,
+            int enemiesKilled,
             Vector2 playerPosition, 
             Quaternion playerRotation, 
             float playerHealth, List<(Vector2, Quaternion)> projectilePositions, 
             List<EnemySnapshotData> enemyData
         )
         {
+            this.timeFromStart = timeFromStart;
+            this.enemiesKilled = enemiesKilled;
             this.playerPosition = playerPosition;
             this.playerRotation = playerRotation;
             this.playerHealth = playerHealth;
