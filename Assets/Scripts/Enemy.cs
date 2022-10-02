@@ -1,24 +1,30 @@
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
     public float speed;
     public float health;
-    private Rigidbody2D myBody;
+
+    private NavMeshAgent navMeshAgent;
     private Player player;
     private UIManager UI;
 
     void Awake()
     {
-        myBody = GetComponent<Rigidbody2D>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
         player = FindObjectOfType<Player>();
         UI = FindObjectOfType<UIManager>();
+
+        navMeshAgent.speed = speed;
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
     }
 
     void FixedUpdate()
     {
-        Vector2 dirToPlayer = ((Vector2)player.transform.position - myBody.position).normalized;
-        myBody.velocity = dirToPlayer * speed;
+        navMeshAgent.SetDestination(player.transform.position);
     }
 
     public void ApplyDamage()
