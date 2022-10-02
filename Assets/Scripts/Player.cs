@@ -8,8 +8,14 @@ public class Player : MonoBehaviour
     public float speed;
     public float health;
     public float currentHealth;
+    public float invulnerabilityDuration;
+    public float knockbackDuration;
+    public float knockbackStrength;
     private Rigidbody2D myBody;
     private Animator animatorController;
+    private float invulnerabilityRemainingTime;
+    private float knockbackRemainingTime;
+    private Vector2 knockbackDirection;
 
     public List<PlayerClone.ReplayStep> currentTrajectory { get; private set; }
 
@@ -28,8 +34,25 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // Decrease invulnerability timer
+        if (invulnerabilityRemainingTime > 0)
+        {
+            invulnerabilityRemainingTime -= Time.deltaTime;
+        }
+
+        // Decrease knockback timer
+        if (knockbackRemainingTime > 0)
+        {
+            knockbackRemainingTime -= Time.deltaTime;
+        }
+
         // Move
         Vector2 moveDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        if (knockbackRemainingTime > 0)
+        {
+            // Apply knockback
+            moveDirection = Vector2.Lerp(moveDirection, knockbackDirection * knockbackStrength, knockbackRemainingTime / knockbackDuration);
+        }
         myBody.velocity = moveDirection * speed;
 
         // Look towards the mouse cursor
@@ -80,9 +103,21 @@ public class Player : MonoBehaviour
         ));
     }
 
-    public void ApplyDamage()
+    public void ApplyDamage(Vector2 contactNormal)
     {
+        if (invulnerabilityRemainingTime > 0)
+        {
+            // No damage taken
+            return;
+        }
+
         currentHealth--;
+
+        invulnerabilityRemainingTime = invulnerabilityDuration;
+        knockbackRemainingTime = knockbackDuration;
+
+        // Knockback
+        knockbackDirection = -contactNormal;
 
         if (currentHealth <= 0)
         {

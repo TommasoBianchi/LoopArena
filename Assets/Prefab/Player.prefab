@@ -203,6 +203,10 @@ MonoBehaviour:
   projectileSpawnPoint: {fileID: 2204190693009154780}
   speed: 6
   health: 0
+  currentHealth: 0
+  invulnerabilityDuration: 0.5
+  knockbackDuration: 0.2
+  knockbackStrength: 3
 --- !u!50 &2204190693224472061
 Rigidbody2D:
   serializedVersion: 4
