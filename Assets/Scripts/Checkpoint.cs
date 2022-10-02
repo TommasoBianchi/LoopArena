@@ -65,6 +65,7 @@ public class Checkpoint : MonoBehaviour
         if (!isFirstCheckpoint && isActive && player != null && Current != this)
         {
             // The player has hit a new checkpoint, add it to the stack and snapshot the world
+            AudioManager.Play(AudioManager.ClipType.ActivateCheckpoint);
             checkpoints.Push(this);
             TimeManager.Instance.CreateSnapshot();
 

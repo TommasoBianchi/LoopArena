@@ -27,24 +27,17 @@ public class Projectile : MonoBehaviour
             PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
             return;
         }
-
-        // Despawn if out of camera view
-        Vector2 cameraViewport = Camera.main.WorldToViewportPoint(transform.position);
-
-        if (!viewportDespawnRect.Contains(cameraViewport))
-        {
-            PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);
-            return;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+        AudioManager.Play(AudioManager.ClipType.Hit);
 
         if (enemy != null)
         {
             PoolingManager.Destroy(PoolingManager.Type.Enemy, enemy.gameObject);
+            AudioManager.Play(AudioManager.ClipType.MonsterDeath);
         }
 
         PoolingManager.Destroy(PoolingManager.Type.Projectile, gameObject);

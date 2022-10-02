@@ -39,6 +39,8 @@ public class PlayerClone : MonoBehaviour
                 projectileSpawnPoint.position, 
                 transform.rotation
             );
+
+            AudioManager.Play(AudioManager.ClipType.Shoot);
         }
     }
 

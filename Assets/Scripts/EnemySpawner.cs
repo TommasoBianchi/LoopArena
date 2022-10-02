@@ -18,7 +18,7 @@ public class EnemySpawner : MonoBehaviour
 
             spawnedEnemy = PoolingManager.Instantiate(PoolingManager.Type.Enemy, PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy), transform.position, Quaternion.identity);
             spawnedEnemy.GetComponent<Enemy>().speed = 5;
-
+            AudioManager.Play(AudioManager.ClipType.MonsterNoise);
         }
     }
 }

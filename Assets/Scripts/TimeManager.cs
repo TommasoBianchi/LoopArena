@@ -33,6 +33,7 @@ public class TimeManager : MonoBehaviour
 
         if (timeToNextReset <= 0)
         {
+            AudioManager.Play(AudioManager.ClipType.Reset);
             resetLastSnapshot();
         }
     }
