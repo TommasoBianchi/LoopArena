@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
     public Transform projectileSpawnPoint;
     public float speed;
     public float health;
+    public float currentHealth;
     private Rigidbody2D myBody;
     private Animator animatorController;
 
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
         myBody = GetComponent<Rigidbody2D>();
         animatorController = GetComponentInChildren<Animator>();
         currentTrajectory = new List<PlayerClone.ReplayStep>();
+        currentHealth = health;
     }
 
     public void ResetCurrentTrajectory()
@@ -80,9 +82,9 @@ public class Player : MonoBehaviour
 
     public void ApplyDamage()
     {
-        health--;
+        currentHealth--;
 
-        if (health <= 0)
+        if (currentHealth <= 0)
         {
             UIManager.GameOver();
         }

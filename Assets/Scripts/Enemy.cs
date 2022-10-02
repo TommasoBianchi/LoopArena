@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-            //player.ApplyDamage();
+            player.ApplyDamage();
         }
 
         return;

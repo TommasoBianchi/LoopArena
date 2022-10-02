@@ -6,9 +6,10 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance { get; private set; }
     public static float TimeFromStart { get; private set; }
+    public static int NumStoredSnapshots { get { return Instance.snapshots.Count; } }
 
     public float resetEverySeconds = 10;
-    private float timeToNextReset;
+    public float timeToNextReset { get; private set; }
     private Stack<Snapshot> snapshots;
     private List<List<PlayerClone.ReplayStep>> playerPastTrajectories;
 
@@ -52,7 +53,7 @@ public class TimeManager : MonoBehaviour
         Player player = FindObjectOfType<Player>();
         player.transform.position = lastSnapshot.playerPosition;
         player.transform.rotation = lastSnapshot.playerRotation;
-        player.health = lastSnapshot.playerHealth;
+        player.currentHealth = lastSnapshot.playerHealth;
 
         // Store and reset player trajectory (only if the current checkpoints supports more clones)
         if (playerPastTrajectories.Count < Checkpoint.Current.maxClonesSupported)
@@ -147,7 +148,7 @@ public class TimeManager : MonoBehaviour
             FindObjectOfType<UIManager>().MonsterKilled,
             player.transform.position,
             player.transform.rotation,
-            player.health,
+            player.currentHealth,
             projectiles.Select(p => ((Vector2)p.transform.position, p.transform.rotation)).ToList(),
             enemies.Select(e => new EnemySnapshotData(e.transform.position, e.transform.rotation, e.health)).ToList()
         );

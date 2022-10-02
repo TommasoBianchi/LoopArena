@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 4414400626317792660}
   - component: {fileID: 4414400626317792683}
   - component: {fileID: 4414400626317792682}
+  - component: {fileID: 6138752989349573463}
   m_Layer: 5
   m_Name: UI
   m_TagString: Untagged
@@ -615,6 +616,24 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &6138752989349573463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4414400626317792681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57e7d2fa7b33164489742d9d7a85e02f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterKilled: 0
+  TotalMonsters: 0
+  killsText: {fileID: 4414400627003764832}
+  checkpointsText: {fileID: 4414400626809356718}
+  healthSlider: {fileID: 4414400626165303094}
+  timeSlider: {fileID: 4414400627516578525}
 --- !u!1 &4414400626411974407
 GameObject:
   m_ObjectHideFlags: 0
