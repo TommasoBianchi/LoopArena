@@ -4,6 +4,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    private static UIManager Instance;
+
     public int MonsterKilled;
     public int TotalMonsters;
 
@@ -11,11 +13,19 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI checkpointsText;
     public Slider healthSlider;
     public Slider timeSlider;
+    public GameOverUI gameOverPanel;
 
     private Player player;
 
     void Start()
     {
+        if (Instance != null)
+        {
+            throw new System.Exception("Impossible to have more than one UIManager");
+        }
+
+        Instance = this;
+
         MonsterKilled = 0;
 
         player = FindObjectOfType<Player>();
@@ -35,13 +45,13 @@ public class UIManager : MonoBehaviour
 
         if (MonsterKilled >= TotalMonsters)
         {
-            GameOver();
+            GameOver(true);
         }
     }
 
-    public static void GameOver()
+    public static void GameOver(bool isWin)
     {
-        Debug.Log("Game Over");
         Time.timeScale = 0;
+        Instance.gameOverPanel.Activate(isWin);
     }
 }

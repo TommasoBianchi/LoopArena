@@ -36,6 +36,7 @@ public class TimeManager : MonoBehaviour
     void Update()
     {
         timeToNextReset -= Time.deltaTime;
+        TimeFromStart += Time.deltaTime;
 
         if (timeToNextReset <= 0)
         {

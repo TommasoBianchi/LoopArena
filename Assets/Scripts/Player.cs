@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
 
         if (currentHealth <= 0)
         {
-            UIManager.GameOver();
+            UIManager.GameOver(false);
         }
     }
 }
