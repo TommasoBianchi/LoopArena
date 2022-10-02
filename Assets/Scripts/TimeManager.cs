@@ -9,12 +9,9 @@ public class TimeManager : MonoBehaviour
     public static int NumStoredSnapshots { get { return Instance.snapshots.Count; } }
 
     public float resetEverySeconds = 10;
-<<<<<<< Updated upstream
     public float timeToNextReset { get; private set; }
-=======
     public int LoopAmount;
-    private float timeToNextReset;
->>>>>>> Stashed changes
+
     private Stack<Snapshot> snapshots;
     private List<List<PlayerClone.ReplayStep>> playerPastTrajectories;
 

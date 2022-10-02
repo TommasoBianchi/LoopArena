@@ -66,18 +66,7 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-<<<<<<< Updated upstream
             player.ApplyDamage(collision.contacts[0].normal);
-
-            // Apply a small knockback to the player    
-            //player.transform.Translate(collision.contacts[0].normal);
-
-            //collision.otherRigidbody.MovePosition((Vector2)player.transform.position - 10 * collision.contacts[0].normal);
-
-            //collision.otherRigidbody.AddForce(collision.contacts[0].normal * 50, ForceMode2D.Impulse);
-=======
-            player.ApplyDamage();
->>>>>>> Stashed changes
         }
 
         return;
