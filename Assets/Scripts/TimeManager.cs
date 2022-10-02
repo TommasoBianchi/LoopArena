@@ -65,7 +65,7 @@ public class TimeManager : MonoBehaviour
         ///
         /// PLAYER CLONES
         ///
-        PlayerClone[] existingPlayerClones = FindObjectsOfType<PlayerClone>(true);
+        PlayerClone[] existingPlayerClones = FindObjectsOfType<PlayerClone>();
 
         // Cleanup all already existing player clones
         for (int i = 0; i < existingPlayerClones.Length; ++i)
@@ -88,7 +88,7 @@ public class TimeManager : MonoBehaviour
         ///
         /// PROJECTILES
         ///
-        Projectile[] existingProjectiles = FindObjectsOfType<Projectile>(true);
+        Projectile[] existingProjectiles = FindObjectsOfType<Projectile>();
 
         // Cleanup all already existing projectiles
         for (int i = 0; i < existingProjectiles.Length; ++i)
@@ -110,7 +110,7 @@ public class TimeManager : MonoBehaviour
         ///
         /// ENEMIES
         ///
-        Enemy[] existingEnemies = FindObjectsOfType<Enemy>(true);
+        Enemy[] existingEnemies = FindObjectsOfType<Enemy>();
 
         // Cleanup all already existing enemies
         for (int i = 0; i < existingEnemies.Length; ++i)
@@ -138,6 +138,16 @@ public class TimeManager : MonoBehaviour
 
     public void CreateSnapshot()
     {
+        // Cleanup (future) player clones
+        playerPastTrajectories.Clear();
+
+        // Cleanup all already existing player clones
+        PlayerClone[] existingPlayerClones = FindObjectsOfType<PlayerClone>();
+        for (int i = 0; i < existingPlayerClones.Length; ++i)
+        {
+            PoolingManager.Destroy(PoolingManager.Type.PlayerClone, existingPlayerClones[i].gameObject);
+        }
+
         Player player = FindObjectOfType<Player>();
 
         Projectile[] projectiles = FindObjectsOfType<Projectile>();
