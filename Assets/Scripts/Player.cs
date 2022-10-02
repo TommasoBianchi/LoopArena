@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public Transform rotationAnchor;
     public Transform projectileSpawnPoint;
     public float speed;
     public float health;
     private Rigidbody2D myBody;
+    private Animator animatorController;
 
     public List<PlayerClone.ReplayStep> currentTrajectory { get; private set; }
 
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour
     {
         health = 10;
         myBody = GetComponent<Rigidbody2D>();
+        animatorController = GetComponentInChildren<Animator>();
         currentTrajectory = new List<PlayerClone.ReplayStep>();
     }
 
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
 
         if (lookDirection.sqrMagnitude > 0.01f)
         {
-            transform.rotation = Quaternion.Euler(0, 0, -Vector3.SignedAngle(lookDirection, Vector3.right, Vector3.forward));
+            rotationAnchor.rotation = Quaternion.Euler(0, 0, -Vector3.SignedAngle(lookDirection, Vector3.right, Vector3.forward));
         }
 
         // Shoot
@@ -49,12 +52,29 @@ public class Player : MonoBehaviour
             PoolingManager.Instantiate(
                 PoolingManager.Type.Projectile,
                 PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Projectile), 
-                projectileSpawnPoint.position, 
-                transform.rotation
+                projectileSpawnPoint.position,
+                rotationAnchor.rotation
             );
 
             AudioManager.Play(AudioManager.ClipType.Shoot);
         }
+
+        // Update the animation controller
+        int animationDirection;
+        if (Mathf.Abs(lookDirection.x) > Mathf.Abs(lookDirection.y))
+        {
+            // Going sideways (either right if x > 0 or left if x < 0
+            animationDirection = lookDirection.x > 0 ? 1 : 3;
+        } else
+        {
+            // Going up (y > 0) or down (y < 0)
+            animationDirection = lookDirection.y > 0 ? 2 : 0;
+        }
+
+        bool isMoving = moveDirection.sqrMagnitude > 0.01f;
+
+        animatorController.SetInteger("direction", animationDirection);
+        animatorController.SetBool("is_moving", isMoving);
     }
 
     public void ApplyDamage()
