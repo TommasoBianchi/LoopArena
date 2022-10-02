@@ -72,11 +72,8 @@ public class Checkpoint : MonoBehaviour
 
         for (int i = 0; i < glowList.Count; ++i) 
         {
-            glowList[i].gameObject.SetActive(i < durabilityQuota);
+            glowList[i].gameObject.SetActive(isFirstCheckpoint || i < durabilityQuota);
         }
-
-    
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
