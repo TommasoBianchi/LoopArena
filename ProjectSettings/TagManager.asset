@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Enemy
   - Projectile
-  - 
-  - 
+  - Obstacle
+  - Glow
   - 
   - 
   - 
@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 2303190319
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
