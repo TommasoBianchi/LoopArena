@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,6 +20,10 @@ public class AudioManager : MonoBehaviour
     public List<ClipTuple> clips;
     private Dictionary<ClipType, List<AudioClip>> clipsDict;
 
+    public int maxSFXPerType = 10;
+    public int SFXCapacityRechargeSpeed = 10;
+    private static Dictionary<ClipType, float> activeSFXPerType = new Dictionary<ClipType, float>();
+
     void Start()
     {
         if (Instance != null)
@@ -29,6 +34,15 @@ public class AudioManager : MonoBehaviour
         Instance = this;
 
         buildClipsDict();
+    }
+
+    private void Update()
+    {
+        ClipType[] types = activeSFXPerType.Keys.ToArray();
+        foreach (var type in types)
+        {
+            activeSFXPerType[type] -= SFXCapacityRechargeSpeed * Time.deltaTime;
+        }
     }
 
     private void buildClipsDict()
@@ -48,32 +62,23 @@ public class AudioManager : MonoBehaviour
 
     public static void Play(ClipType type)
     {
-        switch (type)
+        if (!activeSFXPerType.ContainsKey(type))
         {
-            case ClipType.Shoot:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.Shoot][0], Instance.transform.position);
-                return;
-            case ClipType.Hit:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.Hit][0], Instance.transform.position);
-                return;
-            case ClipType.MonsterNoise:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.MonsterNoise][0], Instance.transform.position);
-                return;
-            case ClipType.MonsterDeath:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.MonsterDeath][0], Instance.transform.position);
-                return;
-            case ClipType.Reset:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.Reset][0], Instance.transform.position);
-                return;
-            case ClipType.ActivateCheckpoint:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.ActivateCheckpoint][0], Instance.transform.position);
-                return;
-            case ClipType.Walk:
-                AudioSource.PlayClipAtPoint(Instance.clipsDict[AudioManager.ClipType.Walk][0], Instance.transform.position);
-                return;
-            default:
-                return;
+            activeSFXPerType[type] = 0;
         }
+
+        if (activeSFXPerType[type] > Instance.maxSFXPerType)
+        {
+            return;
+        }
+
+        List<AudioClip> allAudioClips = Instance.clipsDict[type];
+        AudioClip audioClip = allAudioClips[Random.Range(0, allAudioClips.Count)];
+
+        AudioSource.PlayClipAtPoint(audioClip, Instance.transform.position);
+
+        // NOTE: we count SFXs by accumulating total duration and discounting every Update (this way we do not need to know when they precisely finish)
+        activeSFXPerType[type] += audioClip.length;
     }
 
     [System.Serializable]
