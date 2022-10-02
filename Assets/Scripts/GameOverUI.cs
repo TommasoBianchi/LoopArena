@@ -31,6 +31,7 @@ public class GameOverUI : MonoBehaviour
     public void PlayAgain()
     {
         Time.timeScale = 1;
+        PoolingManager.Clear();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

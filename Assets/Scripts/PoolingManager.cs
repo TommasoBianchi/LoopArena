@@ -19,6 +19,12 @@ public static class PoolingManager
         parents = new Dictionary<Type, Transform>();
     }
 
+    public static void Clear()
+    {
+        inactiveObjects.Clear();
+        parents.Clear();
+    }
+
     public static GameObject Instantiate(Type type, GameObject prefab, Vector3 position, Quaternion rotation) { 
 
         if (!inactiveObjects.ContainsKey(type))
