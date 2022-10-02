@@ -56,4 +56,15 @@ public class Player : MonoBehaviour
             AudioManager.Play(AudioManager.ClipType.Shoot);
         }
     }
+
+    public void ApplyDamage()
+    {
+        health--;
+
+        if (health <= 0)
+        {
+            Debug.Log("Sei morto!");
+            Time.timeScale = 0;
+        }
+    }
 }

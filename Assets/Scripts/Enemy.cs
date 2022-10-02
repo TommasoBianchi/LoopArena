@@ -6,11 +6,13 @@ public class Enemy : MonoBehaviour
     public float health;
     private Rigidbody2D myBody;
     private Player player;
+    private UIManager UI;
 
     void Awake()
     {
         myBody = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<Player>();
+        UI = FindObjectOfType<UIManager>();
     }
 
     void FixedUpdate()
@@ -27,6 +29,7 @@ public class Enemy : MonoBehaviour
         {
             PoolingManager.Destroy(PoolingManager.Type.Enemy, gameObject);
             AudioManager.Play(AudioManager.ClipType.MonsterDeath);
+            UI.kill();
         }
     }
 
@@ -36,7 +39,7 @@ public class Enemy : MonoBehaviour
 
         if (player != null)
         {
-            Time.timeScale = 0;
+            player.ApplyDamage();
         }
 
         return;
