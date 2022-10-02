@@ -6,21 +6,24 @@ public class EnemySpawner : MonoBehaviour
 {
     public Rect SpawnArea;
     private GameObject spawnedEnemy;
+    private UIManager UI;
     void Start()
     {
+        UI = FindObjectOfType<UIManager>();
         StartCoroutine(SpawnMonsters());
     }
     IEnumerator SpawnMonsters()
     {
-        while (true)
+
+        for (int i = 0; i <= UI.TotalMonsters; i++)
         {
-            yield return new WaitForSeconds(Random.Range(1, 2));
+            yield return new WaitForSeconds(Random.Range(1, 5));
 
             if (SpawnArea.Contains(transform.position))
             {
                 spawnedEnemy = PoolingManager.Instantiate(PoolingManager.Type.Enemy, PrefabsManager.GetPrefab(PrefabsManager.PrefabType.Enemy), transform.position, Quaternion.identity);
                 spawnedEnemy.GetComponent<Enemy>().speed = 5;
-                spawnedEnemy.GetComponent<Enemy>().health = 5;
+                spawnedEnemy.GetComponent<Enemy>().health = 2;
                 AudioManager.Play(AudioManager.ClipType.MonsterNoise);
             }
         }
