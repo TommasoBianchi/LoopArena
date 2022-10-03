@@ -17,9 +17,11 @@ public class AudioManager : MonoBehaviour
 
     private static AudioManager Instance;
 
+    [Range(0, 1)]
+    public float volume;
     public List<ClipTuple> clips;
     private Dictionary<ClipType, List<AudioClip>> clipsDict;
-
+    
     public int maxSFXPerType = 10;
     public int SFXCapacityRechargeSpeed = 10;
     private static Dictionary<ClipType, float> activeSFXPerType = new Dictionary<ClipType, float>();
@@ -75,7 +77,7 @@ public class AudioManager : MonoBehaviour
         List<AudioClip> allAudioClips = Instance.clipsDict[type];
         AudioClip audioClip = allAudioClips[Random.Range(0, allAudioClips.Count)];
 
-        AudioSource.PlayClipAtPoint(audioClip, Instance.transform.position);
+        AudioSource.PlayClipAtPoint(audioClip, Instance.transform.position, Instance.volume);
 
         // NOTE: we count SFXs by accumulating total duration and discounting every Update (this way we do not need to know when they precisely finish)
         activeSFXPerType[type] += audioClip.length;
