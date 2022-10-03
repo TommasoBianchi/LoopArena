@@ -1679,10 +1679,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 311543039058222227, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
-      propertyPath: durability
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 311543039058222228, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_Name
       value: Checkpoint (9)
