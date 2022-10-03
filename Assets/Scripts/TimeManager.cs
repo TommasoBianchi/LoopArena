@@ -61,7 +61,7 @@ public class TimeManager : MonoBehaviour
         player.currentHealth = lastSnapshot.playerHealth;
 
         // Store and reset player trajectory (only if the current checkpoints supports more clones)
-        if (playerPastTrajectories.Count < Checkpoint.Current.maxClonesSupported)
+        if (playerPastTrajectories.Count < Checkpoint.Current.maxClonesSupported && player.currentTrajectory.Count > 0)
         {
             playerPastTrajectories.Add(player.currentTrajectory);
         }
