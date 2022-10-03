@@ -76,7 +76,7 @@ public class Checkpoint : MonoBehaviour
             // Restore opacity of all renderers (to signal checkpoint is enabled) for new current checkpoint
             foreach (var spriteRenderer in Current.glowRenderers)
             {
-                spriteRenderer.color = Current.enabledGlowColor;
+                spriteRenderer.color = Current.currentGlowColor;
             }
 
             // Reduce opacity to signal checkpoint is disabled
@@ -86,7 +86,7 @@ public class Checkpoint : MonoBehaviour
             }
 
             // Spawn activation effect at location of new current checkpoint (only if new current is not the starting one)
-            if (Current.isFirstCheckpoint)
+            if (!Current.isFirstCheckpoint)
             {
                 Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.CheckpointActivateEffect), Current.transform.position + new Vector3(0, -2.5f, 0), Quaternion.identity);
             }
