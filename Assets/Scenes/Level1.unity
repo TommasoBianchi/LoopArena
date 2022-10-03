@@ -1679,6 +1679,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 311543039058222227, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
+      propertyPath: durability
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311543039058222228, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_Name
       value: Checkpoint (9)
@@ -2085,23 +2089,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1235454241283394507, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_SortingOrder
-      value: -195
+      value: -112
       objectReference: {fileID: 0}
     - target: {fileID: 3074065479624896327, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_SortingOrder
-      value: -195
+      value: -112
       objectReference: {fileID: 0}
     - target: {fileID: 3095393178588570021, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_SortingOrder
-      value: -193
+      value: -110
       objectReference: {fileID: 0}
     - target: {fileID: 3422950496402220752, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_SortingOrder
-      value: -195
+      value: -112
       objectReference: {fileID: 0}
     - target: {fileID: 8008272154644418624, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}
       propertyPath: m_SortingOrder
-      value: -195
+      value: -112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dd35025aee169b4e99e664d7dd77c4b, type: 3}

@@ -9,6 +9,11 @@ public class Checkpoint : MonoBehaviour
     public float durabilityReloadPerSecond;
     [SerializeField] private List<GameObject> glowList;
 
+    public SpriteRenderer columnRenderer;
+    public List<SpriteRenderer> glowRenderers;
+    public Color enabledGlowColor;
+    public Color disabledGlowColor;
+    public Color currentGlowColor;
 
     private float currentDurability;
     private bool isActive;
@@ -39,22 +44,30 @@ public class Checkpoint : MonoBehaviour
                 // Enable the checkpoint
                 isActive = true;
 
-                // TEMP (useful for visualization)
-                transform.GetChild(0).gameObject.SetActive(true);
+                // Restore opacity of all renderers (to signal checkpoint is enabled)
+                Color columnColor = columnRenderer.color;
+                columnColor.a = 1;
+                columnRenderer.color = columnColor;
+
+                foreach (var spriteRenderer in glowRenderers)
+                {
+                    Color color = enabledGlowColor;
+                    color.a = 1;
+                    spriteRenderer.color = color;
+                }
             }
         }
+
+        updateDurabilityGraphics();
     }
 
     public void DecreaseDurability()
     {
         currentDurability -= 1;
 
-        float durabilityRatio = currentDurability / (float)durability;
-        int durabilityQuota = Mathf.FloorToInt(durabilityRatio * glowList.Count);
-
         if (!isFirstCheckpoint && isActive && currentDurability <= 0)
         {
-            // Disable the checkpoint (TODO: edit graphics accordingly) and redirect to the previous one
+            // Disable the checkpoint and redirect to the previous one
             isActive = false;
             checkpoints.Pop();
             TimeManager.Instance.RollbackSnapshot();
@@ -65,12 +78,28 @@ public class Checkpoint : MonoBehaviour
                 glowList[i].gameObject.SetActive(true);
             }
 
-            // TEMP (useful for visualization)
-            transform.GetChild(0).gameObject.SetActive(false);
+            // Reduce opacity to signal checkpoint is disabled
+            Color columnColor = columnRenderer.color;
+            columnColor.a = 1;
+            columnRenderer.color = columnColor;
+
+            foreach (var spriteRenderer in glowRenderers)
+            {
+                Color color = disabledGlowColor;
+                color.a = 1;
+                spriteRenderer.color = color;
+            }
+
             return;
         }
+    }
 
-        for (int i = 0; i < glowList.Count; ++i) 
+    private void updateDurabilityGraphics()
+    {
+        float durabilityRatio = currentDurability / (float)durability;
+        int durabilityQuota = Mathf.FloorToInt(durabilityRatio * glowList.Count);
+
+        for (int i = 0; i < glowList.Count; ++i)
         {
             glowList[i].gameObject.SetActive(isFirstCheckpoint || i < durabilityQuota);
         }
@@ -82,6 +111,17 @@ public class Checkpoint : MonoBehaviour
 
         if (!isFirstCheckpoint && isActive && player != null && Current != this)
         {
+            // Update glow colors
+            foreach (var spriteRenderer in Current.glowRenderers)
+            {
+                spriteRenderer.color = Current.enabledGlowColor;
+            }
+
+            foreach (var spriteRenderer in glowRenderers)
+            {
+                spriteRenderer.color = currentGlowColor;
+            }
+
             // The player has hit a new checkpoint, add it to the stack and snapshot the world
             AudioManager.Play(AudioManager.ClipType.ActivateCheckpoint);
             checkpoints.Push(this);

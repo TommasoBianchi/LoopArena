@@ -108,6 +108,15 @@ MonoBehaviour:
   - {fileID: 6833919353350145968}
   - {fileID: 5419131348628147170}
   - {fileID: 8530072821058849053}
+  columnRenderer: {fileID: 3095393178588570021}
+  glowRenderers:
+  - {fileID: 3074065479624896327}
+  - {fileID: 3422950496402220752}
+  - {fileID: 1235454241283394507}
+  - {fileID: 8008272154644418624}
+  enabledGlowColor: {r: 0.9490196, g: 0.9254902, b: 0.5137255, a: 1}
+  disabledGlowColor: {r: 0.5764706, g: 0.6627451, b: 0.67058825, a: 1}
+  currentGlowColor: {r: 0.15686275, g: 0.85882354, b: 0.6156863, a: 1}
 --- !u!58 &5233035178824532853
 CircleCollider2D:
   m_ObjectHideFlags: 0
