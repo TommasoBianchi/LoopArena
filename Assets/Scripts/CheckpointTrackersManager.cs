@@ -25,12 +25,10 @@ public class CheckpointTrackersManager : MonoBehaviour
             .Where(c => !new Rect(Vector2.zero, Vector2.one).Contains(Camera.main.WorldToViewportPoint(c.transform.position))) // Exclude checkpoint already visible
             .OrderBy(c => (player.transform.position - c.transform.position).sqrMagnitude).ToList();
 
-
-
         for (int i = 0; i < Mathf.Min(trackers.Count, sortedCheckpoints.Count); ++i)
         {
             Vector2 viewportDir = (Vector2)Camera.main.WorldToViewportPoint(sortedCheckpoints[i].transform.position) - Vector2.one / 2;
-            Vector2 trackerViewportPosition = (viewportDir.normalized + Vector2.one) / 2;
+            Vector2 trackerViewportPosition = (viewportDir / Mathf.Max(Mathf.Abs(viewportDir.y), Mathf.Abs(viewportDir.y)) + Vector2.one) / 2;
             trackerViewportPosition.x = Mathf.Clamp(trackerViewportPosition.x, padding / 2, 1 - padding / 2);
             trackerViewportPosition.y = Mathf.Clamp(trackerViewportPosition.y, padding / 2, 1 - padding / 2);
             trackers[i].transform.position = (Vector2)Camera.main.ViewportToWorldPoint(trackerViewportPosition);

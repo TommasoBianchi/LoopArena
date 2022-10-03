@@ -307,7 +307,7 @@ MonoBehaviour:
   - {fileID: 5306228870798426542}
   - {fileID: 1959629837635190525}
   - {fileID: 4366526874746328303}
-  padding: 0.05
+  padding: 0.1
 --- !u!1 &5982064810337382713
 GameObject:
   m_ObjectHideFlags: 0
