@@ -7,7 +7,8 @@ public class PrefabsManager : MonoBehaviour
     {
         Projectile,
         Enemy,
-        PlayerClone
+        PlayerClone,
+        CheckpointActivateEffect
     }
 
     private static PrefabsManager Instance;

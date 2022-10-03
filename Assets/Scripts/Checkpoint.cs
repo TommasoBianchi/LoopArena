@@ -45,14 +45,9 @@ public class Checkpoint : MonoBehaviour
                 isActive = true;
 
                 // Restore opacity of all renderers (to signal checkpoint is enabled)
-                Color columnColor = columnRenderer.color;
-                columnColor.a = 1;
-                columnRenderer.color = columnColor;
-
                 foreach (var spriteRenderer in glowRenderers)
                 {
                     Color color = enabledGlowColor;
-                    color.a = 1;
                     spriteRenderer.color = color;
                 }
             }
@@ -78,19 +73,23 @@ public class Checkpoint : MonoBehaviour
                 glowList[i].gameObject.SetActive(true);
             }
 
-            // Reduce opacity to signal checkpoint is disabled
-            Color columnColor = columnRenderer.color;
-            columnColor.a = 1;
-            columnRenderer.color = columnColor;
-
-            foreach (var spriteRenderer in glowRenderers)
+            // Restore opacity of all renderers (to signal checkpoint is enabled) for new current checkpoint
+            foreach (var spriteRenderer in Current.glowRenderers)
             {
-                Color color = disabledGlowColor;
-                color.a = 1;
-                spriteRenderer.color = color;
+                spriteRenderer.color = Current.enabledGlowColor;
             }
 
-            return;
+            // Reduce opacity to signal checkpoint is disabled
+            foreach (var spriteRenderer in glowRenderers)
+            {
+                spriteRenderer.color = disabledGlowColor;
+            }
+
+            // Spawn activation effect at location of new current checkpoint (only if new current is not the starting one)
+            if (Current.isFirstCheckpoint)
+            {
+                Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.CheckpointActivateEffect), Current.transform.position + new Vector3(0, -2.5f, 0), Quaternion.identity);
+            }
         }
     }
 
@@ -129,6 +128,9 @@ public class Checkpoint : MonoBehaviour
 
             // Reset the current player recorded trajectory
             player.ResetCurrentTrajectory();
+
+            // Spawn activation effect at location of new current checkpoint
+            Instantiate(PrefabsManager.GetPrefab(PrefabsManager.PrefabType.CheckpointActivateEffect), transform.position + new Vector3(0, -2.5f, 0), Quaternion.identity);
         }
     }
 }
