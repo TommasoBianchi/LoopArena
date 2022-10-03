@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFirstCheckpoint: 0
-  maxClonesSupported: 5
-  durability: 5
-  durabilityReloadPerSecond: 1
+  maxClonesSupported: 2
+  durability: 4
+  durabilityReloadPerSecond: 0.2
   glowList:
   - {fileID: 1175535693888918445}
   - {fileID: 6833919353350145968}
